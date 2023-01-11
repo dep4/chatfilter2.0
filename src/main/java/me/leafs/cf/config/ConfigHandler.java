@@ -27,8 +27,8 @@ public class ConfigHandler {
         // read the file and parse json
         try {
             InputStream in = new FileInputStream(configPath);
-            config = GSON.fromJson(new InputStreamReader(in), ChatFilterConfig.class);
-        } catch (FileNotFoundException ignored) { // we literally check but ok
+            config = GSON.fromJson(new InputStreamReader(in, "UTF-8"), ChatFilterConfig.class);
+        } catch (UnsupportedEncodingException | FileNotFoundException ignored) { // we literally check but ok
         }
 
         return config;
@@ -38,7 +38,7 @@ public class ConfigHandler {
         String jsonString = GSON.toJson(config);
 
         try {
-            Files.write(configPath.toPath(), jsonString.getBytes());
+            Files.write(configPath.toPath(), jsonString.getBytes("UTF-8"));
         } catch (IOException e) {
             System.out.println("Failed to write config file.");
         }
